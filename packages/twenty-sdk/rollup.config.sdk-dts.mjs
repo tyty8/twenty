@@ -1,3 +1,4 @@
+import path from 'node:path';
 import dts from 'rollup-plugin-dts';
 
 const external = (id) => {
@@ -7,7 +8,8 @@ const external = (id) => {
   if (id.startsWith('@/')) {
     return false;
   }
-  return !id.startsWith('.') && !id.startsWith('/');
+  // path.isAbsolute rather than startsWith('/'): resolved ids are C:\... on Windows
+  return !id.startsWith('.') && !path.isAbsolute(id);
 };
 
 const plugins = [

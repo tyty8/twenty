@@ -17,6 +17,11 @@ const keepVirtualModuleImportsPlugin: esbuild.Plugin = {
           return undefined;
         }
 
+        // On Windows the entry point itself is a drive-letter path (C:/...)
+        if (path.isAbsolute(importPath)) {
+          return undefined;
+        }
+
         if (VIRTUAL_MODULE_IMPORT_PATTERN.test(importPath)) {
           return { path: importPath, external: true };
         }

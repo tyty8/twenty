@@ -15,7 +15,8 @@ for (const submodule of submodules) {
 }
 
 const isExternal = (id: string): boolean => {
-  if (id.startsWith('.') || id.startsWith('/') || id.startsWith('\0')) {
+  // path.isAbsolute rather than startsWith('/'): resolved ids are C:/... on Windows
+  if (id.startsWith('.') || path.isAbsolute(id) || id.startsWith('\0')) {
     return false;
   }
 
